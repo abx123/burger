@@ -17,14 +17,14 @@ jobs:
             - ./node_modules
       - run: yarn build
       - persist_to_workspace:
-          root:  /home/circleci/app
+          root: .
           paths: .
   deploy:
     docker:
       - image: 'circleci/node:lts'
     steps:
       - attach_workspace:
-          at:  /home/circleci/app
+          at: .
       - firebase-deploy/deploy:
           token: 1//0gRx1D2dCIXW4CgYIARAAGBASNwF-L9IrbORS57uzqY7Bumt7dNhIIJ3SJFx7uisZIZOmlcqGIDzfh1lN-2DkEAvx0o9UWjliOrk
 workflows:
@@ -36,4 +36,7 @@ workflows:
      - build
      - deploy:
          requires:
-          - build    
+          - build
+        filters:
+            branches:
+              only: master    
